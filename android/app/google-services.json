@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "879683970889",
+    "project_id": "regal-stack-305305",
+    "storage_bucket": "regal-stack-305305.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:879683970889:android:c76b49155701b320441c98",
+        "android_client_info": {
+          "package_name": "com.example.flutter_auth"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "879683970889-6avvumlctdj9988rcrrgarpskgvisl0c.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBim4PmP5aXrU3U_gMqdaYAh4j3ZWPA61M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "879683970889-6avvumlctdj9988rcrrgarpskgvisl0c.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
