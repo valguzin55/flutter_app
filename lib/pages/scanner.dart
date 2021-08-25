@@ -1,9 +1,7 @@
-import 'dart:io';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/material.dart';
+
 import 'package:camera/camera.dart';
 import 'package:flutter_auth/main.dart';
 import 'package:flutter_auth/pages/addRequest.dart';
@@ -40,8 +38,11 @@ class _Demo extends State<Demo> {
   @override
   void initState() {
     super.initState();
-    controller = CameraController(cameras[0], ResolutionPreset.medium,
-        enableAudio: false);
+    controller = CameraController(
+      cameras[0],
+      ResolutionPreset.medium,
+      enableAudio: false,
+    );
     controller.initialize().then((_) {
       if (!mounted) {
         return;
@@ -94,13 +95,12 @@ class _Demo extends State<Demo> {
                       final RecognisedText recognisedText =
                           await textDetector.processImage(imageP);
                       String isbn;
-                      //print(text);
+
                       for (TextBlock block in recognisedText.blocks) {
                         for (TextLine line in block.lines) {
                           // Same getters as TextBlock
 
                           if (line.text.startsWith("ISBN")) {
-                            print(line.text);
                             isbn = line.text.split(" ")[1];
                           }
                         }
@@ -110,17 +110,14 @@ class _Demo extends State<Demo> {
                             .collection('users')
                             .doc(FirebaseAuth.instance.currentUser.uid)
                             .get();
-                        if (data['role'] != 'user')
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => AddWidget(
-                                        isbn: isbn,
-                                      )));
-                        else
-                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                            content: Text("Добавление для буккросинга"),
-                          ));
+                        //if (data['role'] != 'user')
+
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => AddWidget(
+                                      isbn: isbn,
+                                    )));
                       } else {
                         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                           content: Text("ISBN не найден"),
@@ -137,13 +134,12 @@ class _Demo extends State<Demo> {
                         final RecognisedText recognisedText =
                             await textDetector.processImage(imageP);
                         String isbn;
-                        //print(text);
+
                         for (TextBlock block in recognisedText.blocks) {
                           for (TextLine line in block.lines) {
                             // Same getters as TextBlock
 
                             if (line.text.startsWith("ISBN")) {
-                              print(line.text);
                               isbn = line.text.split(" ")[1];
                             }
                           }
@@ -170,13 +166,12 @@ class _Demo extends State<Demo> {
                         final RecognisedText recognisedText =
                             await textDetector.processImage(imageP);
                         String isbn;
-                        //print(text);
+
                         for (TextBlock block in recognisedText.blocks) {
                           for (TextLine line in block.lines) {
                             // Same getters as TextBlock
 
                             if (line.text.startsWith("ISBN")) {
-                              print(line.text);
                               isbn = line.text.split(" ")[1];
                             }
                           }

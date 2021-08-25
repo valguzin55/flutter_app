@@ -7,9 +7,8 @@ import 'package:flutter_auth/components/already_have_an_account_acheck.dart';
 import 'package:flutter_auth/components/rounded_button.dart';
 import 'package:flutter_auth/components/rounded_input_field.dart';
 import 'package:flutter_auth/components/rounded_password_field.dart';
-import 'package:flutter_auth/main.dart';
+
 import 'package:flutter_svg/svg.dart';
-import 'package:flutter_auth/main1.dart';
 
 class Body extends StatelessWidget {
   Body({
@@ -22,22 +21,6 @@ class Body extends StatelessWidget {
     var passcontroller = TextEditingController();
     var emailcontroller = TextEditingController();
     final FirebaseAuth _auth = FirebaseAuth.instance;
-    Future<bool> _login(String email, String password) async {
-      //await FirebaseAuth.instance.useAuthEmulator('localhost', 9099);
-      try {
-        await _auth.signInWithEmailAndPassword(
-            email: emailcontroller.text, password: passcontroller.text);
-        return true;
-      } on FirebaseAuthException catch (e) {
-        if (e.code == 'weak-password') {
-          print("pass weak");
-          return false;
-        } else {
-          print("another error");
-          return false;
-        }
-      }
-    }
 
     return Background(
       child: SingleChildScrollView(
@@ -45,7 +28,7 @@ class Body extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Text(
-              "LOGIN",
+              "Вход",
               style: TextStyle(fontWeight: FontWeight.bold),
             ),
             SizedBox(height: size.height * 0.03),
@@ -55,19 +38,20 @@ class Body extends StatelessWidget {
             ),
             SizedBox(height: size.height * 0.03),
             RoundedInputField(
-              hintText: "Your Email",
+              hintText: "Ваша почта",
               onChanged: (value) {},
               controller: emailcontroller,
+              textInputAction: TextInputAction.next,
             ),
             RoundedPasswordField(
               onChanged: (value) {},
               controller: passcontroller,
             ),
             RoundedButton(
-              text: "LOGIN",
+              text: "ВОЙТИ",
               press: () async {
                 AuthenticationProvider(_auth)
-                    .signIn(emailcontroller.text, passcontroller.text);
+                    .signIn(emailcontroller.text, passcontroller.text, context);
                 //await _login(emailcontroller.text, passcontroller.text);
               },
               //Lord55jLord55j

@@ -1,13 +1,17 @@
+import 'package:firebase_auth/firebase_auth.dart';
+
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+
 import 'package:flutter_auth/pages/single_news_page.dart';
 import 'package:flutter_auth/utils/helper.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-final Stream<QuerySnapshot> _booksStream =
-    FirebaseFirestore.instance.collection('books').snapshots();
-
 class BookInformation extends StatefulWidget {
+  FirebaseAuth auth;
+  BookInformation(auth1) {
+    this.auth = auth1;
+  }
   @override
   _BookInformation createState() => _BookInformation();
 }
@@ -16,10 +20,15 @@ class _BookInformation extends State<BookInformation> {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<QuerySnapshot>(
-      stream: _booksStream,
+      stream: FirebaseFirestore.instance
+          .collection('books')
+          .where("login", isEqualTo: widget.auth.currentUser.email)
+          .orderBy("name")
+          .snapshots(),
       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
         if (snapshot.hasError) {
-          return Text('Something went wrong');
+          print(snapshot.error.toString());
+          return Text(snapshot.error.toString());
         }
 
         if (snapshot.connectionState == ConnectionState.waiting) {
@@ -29,13 +38,19 @@ class _BookInformation extends State<BookInformation> {
             ),
           );
         }
-        print("work");
 
+        if (snapshot.data.size == 0) {
+          return Material(
+            child: Center(
+              child: Text("Здесь будут ваши добавленные книги"),
+            ),
+          );
+        }
         return ListView(
           children: snapshot.data.docs.map((DocumentSnapshot document) {
             Map<String, dynamic> _data =
                 document.data() as Map<String, dynamic>;
-            print(_data);
+
             return GestureDetector(
               onTap: () {
                 Helper.nextScreen(context, SingleNewsPage(_data));

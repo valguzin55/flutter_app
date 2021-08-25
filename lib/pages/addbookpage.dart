@@ -41,7 +41,6 @@ class VolumeJson {
     var list = parsedJson['items'] as List;
 
     List<Item> itemList = list.map((i) => Item.fromJson(i)).toList();
-    print(itemList.length);
 
     return VolumeJson(
         items: itemList,
@@ -84,8 +83,6 @@ class VolumeInfo {
   });
 
   factory VolumeInfo.fromJson(Map<String, dynamic> parsedJson) {
-    print('GETTING DATA');
-    //print(isbnList[1]);
     return VolumeInfo(
       title: parsedJson['title'],
       publisher: parsedJson['publisher'],
@@ -126,7 +123,6 @@ class AddWidget extends StatefulWidget {
 
   AddWidget({String isbn}) {
     this.isbn = isbn;
-    print("work");
   }
   @override
   _AddWidget createState() => _AddWidget();
@@ -181,14 +177,13 @@ class _AddWidget extends State<AddWidget> {
   }
 
   File _imageFile;
-  Future<VolumeJson> getRelateds(String isbn) async {
-    print('Im Starting');
+  getRelateds(String isbn) async {
     try {
       final jsonResponse = await http.get(
           Uri.parse('https://www.googleapis.com/books/v1/volumes?q={$isbn}'));
 
       var jsonBody = json.decode(jsonResponse.body);
-      print(jsonBody['items'][0]);
+
       _nameController.text = jsonBody['items'][0]['volumeInfo']['title'];
       _authorController.text =
           jsonBody['items'][0]['volumeInfo']['authors'].toString();
@@ -228,7 +223,7 @@ class _AddWidget extends State<AddWidget> {
           .ref(_nameController.text.toString())
           .putFile(file);
     } on firebase_core.FirebaseException catch (e) {
-      print("bad");
+      print(e.toString());
       // e.g, e.code == 'canceled'
     }
 
@@ -284,6 +279,7 @@ class _AddWidget extends State<AddWidget> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         title: Text("Добавить книгу"),
       ),
@@ -301,12 +297,13 @@ class _AddWidget extends State<AddWidget> {
                   Icons.photo_library,
                   size: 30,
                 ),
-                onPressed: () => _pickImage(ImageSource.gallery),
+                onPressed: () => _pickImage(ImageSource.camera),
                 color: Colors.pink,
               ),
               TextField(
                 controller: _isbnController,
                 decoration: InputDecoration(hintText: "Введите ISBN"),
+                textInputAction: TextInputAction.next,
               ),
               ElevatedButton(
                 child: Text("Найти"),
@@ -319,33 +316,41 @@ class _AddWidget extends State<AddWidget> {
               TextField(
                 controller: _nameController,
                 decoration: InputDecoration(hintText: "Введите Название"),
+                textInputAction: TextInputAction.next,
               ),
               TextField(
                 controller: _authorController,
                 decoration: InputDecoration(hintText: "Введите Автора"),
+                textInputAction: TextInputAction.next,
               ),
               TextField(
                 controller: _publisherController,
                 decoration: InputDecoration(hintText: "Введите Издателя"),
+                textInputAction: TextInputAction.next,
               ),
               Container(
-                height: 100.0,
                 child: TextField(
                   controller: _descriptionController,
                   decoration: InputDecoration(hintText: "Введите Описание"),
+                  textInputAction: TextInputAction.next,
+                  keyboardType: TextInputType.multiline,
+                  maxLines: null,
                 ),
               ),
               TextField(
                 controller: _categoryController,
                 decoration: InputDecoration(hintText: "Введите Категорию"),
+                textInputAction: TextInputAction.next,
               ),
               TextField(
                 controller: _nController,
                 decoration: InputDecoration(hintText: "Введите Количество"),
+                textInputAction: TextInputAction.next,
               ),
               TextField(
                 controller: _languageController,
                 decoration: InputDecoration(hintText: "Введите Язык"),
+                textInputAction: TextInputAction.done,
               ),
               const SizedBox(height: 20.0),
               ElevatedButton(

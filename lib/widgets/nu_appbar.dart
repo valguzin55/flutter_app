@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_icons/flutter_icons.dart';
+
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:flutter_auth/pages/notifications.dart';
-import 'package:flutter_auth/utils/helper.dart';
 
 class NuAppbar extends StatelessWidget {
   @override
@@ -33,15 +31,6 @@ class NuAppbar extends StatelessWidget {
               ),
             ),
           ),
-          GestureDetector(
-            onTap: () {
-              Helper.nextScreen(context, Notifications());
-            },
-            child: Icon(
-              FlutterIcons.bell_sli,
-              size: 20.0,
-            ),
-          )
         ],
       ),
     );

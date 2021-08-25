@@ -1,10 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_auth/utils/constants.dart';
+
 import 'package:flutter_auth/widgets/single_news_header.dart';
 import 'package:flutter_auth/utils/sendNotify.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class SingleRequest extends StatelessWidget {
   Map<String, dynamic> data;
@@ -56,6 +56,23 @@ class SingleRequest extends StatelessWidget {
     await collection.doc(querySnap.docs[0].id).update({'state': 'отклонена'});
     await SendNotify.sendAndRetrieveMessage(
         await data['login'], 'Заявка отклонена');
+  }
+
+  getConnect(BuildContext context) async {
+    final collection = FirebaseFirestore.instance.collection('users');
+    QuerySnapshot querySnap =
+        await collection.where("email", isEqualTo: data['owner']).get();
+    final u = await collection.doc(querySnap.docs[0].id).get();
+    return u['phone'];
+  }
+
+  _launchURL(String phone) async {
+    String url = 'https://api.whatsapp.com/send?phone=' + phone;
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
   }
 
   Widget getButtons(context) {
@@ -213,6 +230,12 @@ class SingleRequest extends StatelessWidget {
                         height: 20.0,
                       ),
                       getButtons(context),
+                      ElevatedButton(
+                          onPressed: () async {
+                            dynamic url = await getConnect(context);
+                            _launchURL(url);
+                          },
+                          child: Text("Связаться через WhatsApp")),
                     ],
                   ),
                 ),

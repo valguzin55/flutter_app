@@ -1,12 +1,12 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_auth/models/push_notification.dart';
-import 'package:flutter_auth/utils/notification_service.dart';
+
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:flutter_auth/pages/notifications.dart';
+
 import 'package:flutter_auth/pages/page_switch.dart';
-import 'package:flutter_auth/pages/single_news_page.dart';
+
 import 'package:flutter_auth/utils/constants.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -14,7 +14,6 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:overlay_support/overlay_support.dart';
 
 import 'Screens/Welcome/welcome_screen.dart';
-import 'authentication_provider.dart';
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   print("Handling a background message: ${message.messageId}");
@@ -47,7 +46,7 @@ class MyAppRole extends StatefulWidget {
 
 class _MyAppRoleState extends State<MyAppRole> {
   FirebaseMessaging _messaging;
-  int _totalNotifications;
+
   PushNotification _notificationInfo;
 
   void registerNotification() async {
@@ -67,9 +66,6 @@ class _MyAppRoleState extends State<MyAppRole> {
       print('User granted permission');
 
       FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-        print(
-            'Message title: ${message.notification?.title}, body: ${message.notification?.body}, data: ${message.data}');
-
         // Parse the message received
         PushNotification notification = PushNotification(
           title: message.notification?.title,
@@ -80,7 +76,6 @@ class _MyAppRoleState extends State<MyAppRole> {
 
         setState(() {
           _notificationInfo = notification;
-          _totalNotifications++;
         });
 
         if (_notificationInfo != null) {
@@ -91,9 +86,6 @@ class _MyAppRoleState extends State<MyAppRole> {
             subtitle: Text(_notificationInfo.body),
             background: Colors.cyan.shade700,
             duration: Duration(seconds: 5),
-            trailing: Builder(builder: (context) {
-              //Navigator.push(context, '/notifications');
-            }),
           );
         }
       });
@@ -118,13 +110,11 @@ class _MyAppRoleState extends State<MyAppRole> {
 
       setState(() {
         _notificationInfo = notification;
-        _totalNotifications++;
       });
     }
   }
 
   void initState() {
-    _totalNotifications = 0;
     registerNotification();
     checkForInitialMessage();
 
@@ -140,7 +130,6 @@ class _MyAppRoleState extends State<MyAppRole> {
 
       setState(() {
         _notificationInfo = notification;
-        _totalNotifications++;
       });
     });
 
@@ -211,14 +200,6 @@ Route<dynamic> _onGenerateRoute(RouteSettings settings) {
     case "/":
       return MaterialPageRoute(builder: (BuildContext context) {
         return PageSwitch();
-      });
-    case "/notifications":
-      return MaterialPageRoute(builder: (BuildContext context) {
-        return Notifications();
-      });
-    case "/search-results":
-      return MaterialPageRoute(builder: (BuildContext context) {
-        return Notifications();
       });
 
     default:

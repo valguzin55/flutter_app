@@ -1,7 +1,3 @@
-import 'dart:convert';
-import 'dart:io';
-import 'dart:math';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -21,7 +17,6 @@ class AddRequest extends StatefulWidget {
   DateTime date = DateTime.now().add(Duration(days: 30));
   AddRequest({String isbn}) {
     this.isbn = isbn;
-    print("work");
   }
   @override
   _AddRequest createState() => _AddRequest();
@@ -49,10 +44,8 @@ class _AddRequest extends State<AddRequest> {
   }
 
   createRequest(dynamic data) async {
-    //print(data['login']);
-
     final FirebaseAuth auth = FirebaseAuth.instance;
-    print(data['login']);
+
     await SendNotify.sendAndRetrieveMessage(
         await data['login'], 'Новая заявка');
     Map<String, dynamic> userData = {

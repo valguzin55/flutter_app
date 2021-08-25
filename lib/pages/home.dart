@@ -1,20 +1,18 @@
-import 'dart:convert';
-import 'package:http/http.dart' as http;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
+
 import 'package:flutter/material.dart';
-import 'package:flutter_auth/utils/notification_service.dart';
-import 'package:flutter_auth/utils/static_data.dart';
 
 import 'package:flutter_auth/pages/bookcard.dart';
 import 'package:flutter_auth/pages/addbookpage.dart';
+
+final auth = FirebaseAuth.instance;
 
 class Home extends StatelessWidget {
   //final FirebaseMessaging firebaseMessaging = FirebaseMessaging.instance;
 
   Widget addFloatButton(context, snapshot) {
-    if (snapshot.data['role'] == 'bibl' || snapshot.data['role'] == 'admin') {
+    if (snapshot.data['role'] == 'bibl' || snapshot.data['role'] == 'admin1') {
       return FloatingActionButton(
           onPressed: () async {
             Navigator.push(
@@ -31,10 +29,8 @@ class Home extends StatelessWidget {
             Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (_) => MyApp(),
+                  builder: (_) => AddWidget(),
                 ));
-            //sendAndRetrieveMessage();
-            print("Функция добавлени для буккросинга");
           },
           child: const Icon(Icons.book),
           backgroundColor: Colors.red.shade300);
@@ -46,7 +42,7 @@ class Home extends StatelessWidget {
     return StreamBuilder<DocumentSnapshot>(
         stream: FirebaseFirestore.instance
             .collection('users')
-            .doc(FirebaseAuth.instance.currentUser.uid)
+            .doc(auth.currentUser.uid)
             .snapshots(),
         builder:
             (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
@@ -55,8 +51,9 @@ class Home extends StatelessWidget {
               child: CircularProgressIndicator(),
             );
           }
+
           return Scaffold(
-            body: BookInformation(),
+            body: BookInformation(auth),
             floatingActionButton: addFloatButton(context, snapshot),
           );
         });

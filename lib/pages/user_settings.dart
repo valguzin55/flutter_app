@@ -1,10 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_auth/components/rounded_button.dart';
-import 'package:flutter_auth/utils/constants.dart';
-import 'package:flutter_auth/utils/static_data.dart';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 
 import '../authentication_provider.dart';
 
@@ -16,7 +14,7 @@ class UserSettings extends StatefulWidget {
 class _UserSettings extends State<UserSettings> {
   final FirebaseAuth auth = FirebaseAuth.instance;
   String user = FirebaseAuth.instance.currentUser.uid;
-  static FirebaseFirestore _db = FirebaseFirestore.instance;
+
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<DocumentSnapshot>(
@@ -74,12 +72,10 @@ class _UserSettings extends State<UserSettings> {
                                         color: Colors.black, fontSize: 20))
                               ]),
                         ),
-                        Text("Выйти"),
                         RoundedButton(
-                          text: "LOGOUT",
+                          text: "Выйти из аккаунта",
                           press: () {
                             AuthenticationProvider(auth).signOut();
-                            // print(succesAuth);
                           },
                         ),
                       ])));

@@ -1,11 +1,9 @@
-import 'package:camera/camera.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_auth/main.dart';
-import 'package:flutter_auth/pages/category_selection.dart';
+
 import 'package:flutter_auth/pages/home.dart';
-import 'package:flutter_auth/pages/homeBookCross.dart';
+
 import 'package:flutter_auth/pages/user_settings.dart';
 import 'package:flutter_auth/widgets/bottom_bar.dart';
 import 'package:flutter_auth/widgets/nu_appbar.dart';
