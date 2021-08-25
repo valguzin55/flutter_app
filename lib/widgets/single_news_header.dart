@@ -31,7 +31,7 @@ class SingleNewsHeader extends StatelessWidget {
             Icon(FlutterIcons.chevron_left_fea),
             Expanded(
               child: Text(
-                "Jacob Blake: Trump visits Kenosha to back police...",
+                "Книга",
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 style: GoogleFonts.ptSans(
@@ -42,17 +42,6 @@ class SingleNewsHeader extends StatelessWidget {
             SizedBox(
               width: 40.0,
             ),
-            Icon(
-              FlutterIcons.bookmark_fea,
-              size: 20.0,
-            ),
-            SizedBox(
-              width: 20.0,
-            ),
-            Icon(
-              FlutterIcons.share_2_fea,
-              size: 20.0,
-            )
           ],
         ),
       ),
