@@ -177,21 +177,22 @@ class UserWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        resizeToAvoidBottomInset: false,
         body: ScreenUtilInit(
-      designSize: ScreenUtil.defaultSize,
-      builder: () => MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: 'Flutter Demo',
-        theme: ThemeData(
-          primaryColor: Constants.primaryColor,
-          scaffoldBackgroundColor: Colors.white,
-          visualDensity: VisualDensity.adaptivePlatformDensity,
-          textTheme: GoogleFonts.ptSerifTextTheme(),
-        ),
-        initialRoute: "/",
-        onGenerateRoute: _onGenerateRoute,
-      ),
-    ));
+          designSize: ScreenUtil.defaultSize,
+          builder: () => MaterialApp(
+            debugShowCheckedModeBanner: false,
+            title: 'Flutter Demo',
+            theme: ThemeData(
+              primaryColor: Constants.primaryColor,
+              scaffoldBackgroundColor: Colors.white,
+              visualDensity: VisualDensity.adaptivePlatformDensity,
+              textTheme: GoogleFonts.ptSerifTextTheme(),
+            ),
+            initialRoute: "/",
+            onGenerateRoute: _onGenerateRoute,
+          ),
+        ));
   }
 }
 

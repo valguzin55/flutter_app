@@ -70,6 +70,7 @@ class _BackRequest extends State<BackRequest> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        resizeToAvoidBottomInset: false,
         appBar: AppBar(
           title: Text("Подтвердить возврат"),
         ),
@@ -90,6 +91,7 @@ class _BackRequest extends State<BackRequest> {
                 else {
                   if (snapshot.hasData) {
                     return Scaffold(
+                      resizeToAvoidBottomInset: false,
                       body: Container(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.stretch,

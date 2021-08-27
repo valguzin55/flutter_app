@@ -79,7 +79,7 @@ Future _showNotificationWithDefaultSound(flip) async {
   var platformChannelSpecifics = new NotificationDetails(
       android: androidPlatformChannelSpecifics,
       iOS: iOSPlatformChannelSpecifics);
-
+  await Firebase.initializeApp();
   final collection = FirebaseFirestore.instance.collection('requests');
   dynamic querySnap = await collection
       .where("login", isEqualTo: auth.currentUser.email)

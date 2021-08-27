@@ -11,30 +11,17 @@ final auth = FirebaseAuth.instance;
 class Home extends StatelessWidget {
   //final FirebaseMessaging firebaseMessaging = FirebaseMessaging.instance;
 
-  Widget addFloatButton(context, snapshot) {
-    if (snapshot.data['role'] == 'bibl' || snapshot.data['role'] == 'admin1') {
-      return FloatingActionButton(
-          onPressed: () async {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (_) => AddWidget(),
-                ));
-          },
-          child: const Icon(Icons.book),
-          backgroundColor: Colors.red.shade300);
-    } else {
-      return FloatingActionButton(
-          onPressed: () async {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (_) => AddWidget(),
-                ));
-          },
-          child: const Icon(Icons.book),
-          backgroundColor: Colors.red.shade300);
-    }
+  Widget addFloatButton(context) {
+    return FloatingActionButton(
+        onPressed: () async {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (_) => AddWidget(),
+              ));
+        },
+        child: const Icon(Icons.book),
+        backgroundColor: Colors.red.shade300);
   }
 
   @override
@@ -51,11 +38,58 @@ class Home extends StatelessWidget {
               child: CircularProgressIndicator(),
             );
           }
+          return StreamBuilder<QuerySnapshot>(
+              stream: FirebaseFirestore.instance
+                  .collection('books')
+                  .where("login", isEqualTo: snapshot.data['email'])
+                  .orderBy("name")
+                  .snapshots(),
+              builder: (BuildContext context,
+                  AsyncSnapshot<QuerySnapshot> snapshot) {
+                if (snapshot.hasError) {
+                  print(snapshot.error.toString());
+                  return Text(snapshot.error.toString());
+                }
 
-          return Scaffold(
-            body: BookInformation(auth),
-            floatingActionButton: addFloatButton(context, snapshot),
-          );
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return Material(
+                    child: Center(
+                      child: CircularProgressIndicator(),
+                    ),
+                  );
+                }
+
+                if (snapshot.data.size == 0) {
+                  return Material(
+                    child: Center(
+                      child: Text("Здесь будут ваши добавленные книги"),
+                    ),
+                  );
+                }
+                if (snapshot.hasData) {
+                  List<Map<dynamic, dynamic>> values = snapshot.data.docs
+                      .map((DocumentSnapshot documentSnapshot) {
+                    return documentSnapshot.data() as Map<String, dynamic>;
+                  }).toList();
+
+                  return Scaffold(
+                    resizeToAvoidBottomInset: false, // this is new
+
+                    body: SingleChildScrollView(child: BookInformation(values)),
+                    floatingActionButton: addFloatButton(context),
+                  );
+                }
+                return null;
+                //   return StreamBuilder<Object>(
+                //     stream: null,
+                //     builder: (context, snapshot) {
+                //       return Scaffold(
+                //         resizeToAvoidBottomInset: false, // this is new
+
+                //         body: SingleChildScrollView(child: BookInformation(auth)),
+                //         floatingActionButton: addFloatButton(context, snapshot),
+                //       );
+              });
         });
   }
 }

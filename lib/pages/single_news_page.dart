@@ -58,6 +58,7 @@ class SingleNewsPage extends StatelessWidget {
             );
           }
           return Scaffold(
+            resizeToAvoidBottomInset: false,
             appBar: AppBar(
               backgroundColor: Colors.transparent,
               toolbarHeight: 0.0,

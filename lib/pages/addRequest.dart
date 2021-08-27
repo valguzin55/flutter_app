@@ -70,6 +70,7 @@ class _AddRequest extends State<AddRequest> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        resizeToAvoidBottomInset: false,
         appBar: AppBar(
           title: Text("Подтвердить выдачу"),
         ),
@@ -90,6 +91,7 @@ class _AddRequest extends State<AddRequest> {
                 else {
                   if (snapshot.hasData) {
                     return Scaffold(
+                      resizeToAvoidBottomInset: false,
                       body: Container(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.stretch,

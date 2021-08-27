@@ -14,6 +14,7 @@ class CameraAppTest extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: Container(
         // width: 200,
         alignment: Alignment.center,

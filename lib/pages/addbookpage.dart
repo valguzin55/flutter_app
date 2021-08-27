@@ -279,7 +279,7 @@ class _AddWidget extends State<AddWidget> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
+      resizeToAvoidBottomInset: true,
       appBar: AppBar(
         title: Text("Добавить книгу"),
       ),

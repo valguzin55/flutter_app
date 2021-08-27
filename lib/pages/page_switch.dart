@@ -60,6 +60,7 @@ class _PageSwitchState extends State<PageSwitch> {
             );
           }
           return Scaffold(
+            resizeToAvoidBottomInset: false,
             bottomNavigationBar: BottomBar(
               changeIndex: changeCurrentIndex,
               currentIndex: currentIndex,
